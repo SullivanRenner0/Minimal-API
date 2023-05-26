@@ -2,5 +2,20 @@ version: "3.9"
 services:
   webapi:
     build: WebApi
+    restart: always
+    depends_on:
+      - mongodb
     ports:
       - 5001:5001
+    environment:
+      DatabaseSettings__ConnectionString: "mongodb://admin:admin@mongodb:27017"
+  mongodb:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+    volumes:
+      - mongoData:/data/db
+volumes:
+  mongoData:
